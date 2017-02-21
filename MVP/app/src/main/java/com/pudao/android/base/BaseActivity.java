@@ -5,6 +5,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +36,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected Toolbar mToolbar;
 
     protected LayoutInflater mLayoutInflater;
+
+    private Fragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,5 +205,37 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     public void showErrorInfo(String msg) {
         showToast(msg);
+    }
+
+    //------------------Fragment相关------------------------------------------
+
+    // 添加Fragment
+    protected void addFragment(int frameLayoutId, Fragment fragment) {
+        if (fragment != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (fragment.isAdded()) {
+                if (mFragment != null) {
+                    transaction.hide(mFragment).show(fragment);
+                } else {
+                    transaction.show(fragment);
+                }
+            } else {
+                if (mFragment != null) {
+                    transaction.hide(mFragment).add(frameLayoutId, fragment);
+                } else {
+                    transaction.add(frameLayoutId, fragment);
+                }
+            }
+            mFragment = fragment;
+            transaction.commit();
+        }
+    }
+    // 替换Fragment
+    protected void replaceFragment(int frameLayoutId, Fragment fragment) {
+        if (fragment != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(frameLayoutId, fragment);
+            transaction.commit();
+        }
     }
 }
