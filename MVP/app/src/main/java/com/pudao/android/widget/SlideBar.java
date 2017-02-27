@@ -45,7 +45,7 @@ public class SlideBar extends View {
         mPaint = new Paint();
         mPaint.setColor(getResources().getColor(R.color.section_text_color));
         mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setTextSize(DensityUtil.sp2px(getContext(), 12));
+        mPaint.setTextSize(DensityUtil.sp2px(getContext(), 14));
     }
 
     @Override

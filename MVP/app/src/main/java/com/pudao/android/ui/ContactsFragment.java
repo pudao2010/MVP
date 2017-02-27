@@ -14,6 +14,8 @@ import com.pudao.android.bean.ContactsBean;
 import com.pudao.android.widget.SlideBar;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -82,18 +84,26 @@ public class ContactsFragment extends BaseFragment {
         for (int i = 0; i < 50; i++) {
             ContactsBean bean = new ContactsBean();
             if (i % 5 == 0) {
-                bean.setUserName(name[0]+random.nextInt(100));
+                bean.setUserName(name[0] + random.nextInt(100));
             } else if (i % 5 == 1) {
-                bean.setUserName(name[1]+random.nextInt(100));
+                bean.setUserName(name[1] + random.nextInt(100));
             } else if (i % 5 == 2) {
-                bean.setUserName(name[2]+random.nextInt(100));
+                bean.setUserName(name[2] + random.nextInt(100));
             } else if (i % 5 == 3) {
-                bean.setUserName(name[3]+random.nextInt(100));
+                bean.setUserName(name[3] + random.nextInt(100));
             } else {
-                bean.setUserName(name[4]+random.nextInt(100));
+                bean.setUserName(name[4] + random.nextInt(100));
             }
             mList.add(bean);
         }
+
+        Collections.sort(mList, new Comparator<ContactsBean>() {
+            @Override
+            public int compare(ContactsBean o1, ContactsBean o2) {
+                return o1.getUserName().charAt(0) - o2.getUserName().charAt(0);
+            }
+        });
+
         mAdapter = new BaseQuickAdapter<ContactsBean, BaseViewHolder>(R.layout.view_contacts_item, mList) {
             @Override
             protected void convert(BaseViewHolder baseViewHolder, ContactsBean contactsBean) {
