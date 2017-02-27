@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.jakewharton.butterknife'
 // 使用project级的gradle文件管理
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -32,4 +32,7 @@ dependencies {
     compile "com.android.support:design:$rootProject.ext.supportVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
     compile "com.android.support:cardview-v7:$rootProject.ext.supportVersion"
+    // ButterKnife
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

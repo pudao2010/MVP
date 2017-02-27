@@ -18,6 +18,8 @@ import com.pudao.android.mvp.BasePresenter;
 import com.pudao.android.mvp.MvpView;
 import com.pudao.android.utils.ReflectUtil;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by pucheng on 2017/2/20.
  * 基础的Activity,封装了公用的方法
@@ -45,7 +47,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         Log.d(TAG, "onCreate");
         setContentView(getLayoutId());
         //
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initActivityPresenter();
         if (savedInstanceState == null)
             savedInstanceState = getIntent().getExtras();

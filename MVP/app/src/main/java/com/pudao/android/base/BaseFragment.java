@@ -19,6 +19,8 @@ import com.pudao.android.mvp.BasePresenter;
 import com.pudao.android.mvp.MvpView;
 import com.pudao.android.utils.ReflectUtil;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by pucheng on 2017/2/20.
  *
@@ -59,7 +61,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         Log.d(TAG, "onCreateView: ");
         if (mRootView == null) {
             mRootView = inflater.inflate(getLayoutId(), container, false);
-//            ButterKnife.bind(this, mRootView);
+            ButterKnife.bind(this, mRootView);
             initFragmentPresenter();
             mLayoutInflater = getLayoutInflater(savedInstanceState);
             initview();
@@ -144,7 +146,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        ButterKnife.unbind(this);
         Log.d(TAG, "onDestroy: ");
     }
 

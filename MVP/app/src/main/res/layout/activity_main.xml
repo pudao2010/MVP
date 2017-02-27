@@ -1,17 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.pudao.android.MainActivity">
+    <include layout="@layout/title_layout"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#888" />
+    <com.pudao.android.widget.AlphaTabsIndicator
+        android:id="@+id/alpha_indicator"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <com.pudao.android.widget.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@drawable/icon_conversation_normal"
+            app:tabIconSelected="@drawable/icon_conversation_selected"
+            app:tabText="微信"
+            app:tabTextSize="13sp"
+            app:textColorNormal="#999999"
+            app:textColorSelected="#46c01b" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+        <com.pudao.android.widget.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@drawable/icon_contact_list_normal"
+            app:tabIconSelected="@drawable/icon_contact_list_selected"
+            app:tabText="通讯录"
+            app:tabTextSize="13sp"
+            app:textColorNormal="#999999"
+            app:textColorSelected="#46c01b" />
+
+        <com.pudao.android.widget.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@drawable/icon_find_normal"
+            app:tabIconSelected="@drawable/icon_find_pressed"
+            app:tabText="发现"
+            app:tabTextSize="13sp"
+            app:textColorNormal="#999999"
+            app:textColorSelected="#46c01b" />
+
+
+        <com.pudao.android.widget.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@drawable/icon_mine_normal"
+            app:tabIconSelected="@drawable/icon_mine_pressed"
+            app:tabText="我"
+            app:tabTextSize="13sp"
+            app:textColorNormal="#999999"
+            app:textColorSelected="#46c01b" />
+    </com.pudao.android.widget.AlphaTabsIndicator>
+</LinearLayout>
