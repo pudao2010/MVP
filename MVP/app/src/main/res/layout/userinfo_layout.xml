@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/re_myinfo"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginBottom="18dp"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/listitem_selector"
+    android:clickable="true"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/icon_default_useravatar" />
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/iv_avatar"
+        android:text="dddd"
+        android:textColor="#353535"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/tv_wechatid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/iv_avatar"
+        android:text="微信号:"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="32dp"
+        android:src="@drawable/icon_qrcode"
+
+        />
+</RelativeLayout>
