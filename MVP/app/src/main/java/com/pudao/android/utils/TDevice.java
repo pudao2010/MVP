@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * Created by pucheng on 2017/2/20.
+ *
  */
 
 public class TDevice {

@@ -32,7 +32,6 @@ public class CacheManager {
      *
      * @param ser
      * @param file
-     * @throws IOException
      */
     public static boolean saveObject(Context context, Serializable ser,
                                      String file) {
@@ -65,7 +64,6 @@ public class CacheManager {
      *
      * @param file
      * @return
-     * @throws IOException
      */
     public static Serializable readObject(Context context, String file) {
         if (!isExistDataCache(context, file))
