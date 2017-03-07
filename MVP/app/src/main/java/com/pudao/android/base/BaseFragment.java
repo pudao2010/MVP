@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.pudao.android.lazy.LazyFragmentPagerAdapter;
 import com.pudao.android.mvp.BasePresenter;
 import com.pudao.android.mvp.MvpView;
 import com.pudao.android.utils.ReflectUtil;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
  *
  */
 
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements MvpView {
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements MvpView, LazyFragmentPagerAdapter.Laziable {
 
     protected String TAG = getClass().getSimpleName();
 

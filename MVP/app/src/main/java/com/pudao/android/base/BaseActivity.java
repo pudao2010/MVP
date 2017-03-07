@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -44,6 +45,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        SwipeBackHelper.onCreate(this);
         Log.d(TAG, "onCreate");
         setContentView(getLayoutId());
         //
@@ -60,7 +62,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     // 子类可复写此方法做一些初始化的操作
     protected void init(Bundle savedInstanceState) {
-
     }
 
     protected void initview() {
@@ -70,6 +71,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void initdata() {
     }
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+//        SwipeBackHelper.onPostCreate(this);
+    }
 
     // 根据反射获取到泛型的Presenter
     private void initActivityPresenter(){
@@ -130,6 +136,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
+//        SwipeBackHelper.onDestroy(this);
         if (mActivityPresenter != null) {
             mActivityPresenter.detachView();
             mActivityPresenter = null;

@@ -23,7 +23,6 @@ public class BaseApplication extends Application{
     public void onCreate() {
         super.onCreate();
         _context = getApplicationContext();
-        //LeakCanary.install(this);
     }
 
     public static synchronized BaseApplication context() {
