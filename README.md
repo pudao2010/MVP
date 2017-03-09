@@ -3,6 +3,7 @@
 	网络请求结合Rxjava + Retrofit + Ohhttp
 	整体思路：
 	一、抽取顶层的接口Presenter接口,使用泛型进行简化，包含两个主要的方法与生命周期进行绑定
+
 		public interface Presenter<T extends MvpView> {
 
 		    // 在Activity或者Fragment的生命周期onCreate时进行绑定
@@ -63,7 +64,7 @@
 	五、Api接口的实现类
 
 		public class ApiImpl implements Api {
-			// ApiService的实例，在构造实例时进行初始化
+			// ApiService的实例，在构造实例时进行初始化，并获取到Retrofit的对象
 		    private ApiService mApiService;
 
 		    public ApiImpl() {
@@ -96,6 +97,7 @@
 
 		    @GET("common/compic!jsonlist.action")
 		    Observable<Response<ResultModle<List<CompicEntity>>>> compic();
+		    
 		}
 	七、请求结果返回模型的统一封装，网络请求返回的json主要字段进行统一管理
 		public class ResultModle<T> {
@@ -225,5 +227,123 @@
 		    public abstract void onSuccess(T t);
 
 		}
+
+	十、HttpMethod类，RxJava 对网络请求的统一处理，对结果进行转换
+
+	public class HttpMethod {
+
+	    /**
+	     * 使用通用的处理方式去处理网络请求
+	     *
+	     * @param observable RxJava Adapter 生成的请求
+	     * @param subscriber 用于返回数据的观察者
+	     * @param <T>        接口返回的数据类型
+	     * @return
+	     */
+	    public static <T> Subscription execute(Observable<Response<ResultModle<T>>> observable, Subscriber<T> subscriber) {
+	        return observable.subscribeOn(Schedulers.io())
+	                .unsubscribeOn(Schedulers.io()) //取消订阅
+	                .observeOn(AndroidSchedulers.mainThread())
+	                .map(new HttpResultErrorFunc<T>())
+	                .map(new HttpResultStatusCodeFunc<T>())
+	                .subscribe(subscriber);
+	    }
+
+	    /**
+	     * 接口返回的数据与返回到P层数据不一样需要转换的处理方式
+	     *
+	     * @param observable RxJava Adapter 生成的请求
+	     * @param subscriber 用于返回数据的观察者
+	     * @param conversion 转换数据的Func1
+	     * @param <T>        接口返回的数据类型
+	     * @param <R>        需要的最终类型
+	     * @return
+	     */
+	    public static <T, R> Subscription execute(Observable<Response<ResultModle<T>>> observable, Subscriber<R> subscriber, HttpResultConversionFunc<T, R> conversion) {
+	        return observable.subscribeOn(Schedulers.io())
+	                .unsubscribeOn(Schedulers.io())
+	                .observeOn(AndroidSchedulers.mainThread())
+	                .map(new HttpResultErrorFunc<T>())
+	                .map(new HttpResultStatusCodeFunc<T>())
+	                .map(conversion)
+	                .subscribe(subscriber);
+	    }
+
+	}
+
+	/**
+	 * 转换类的包装,RxJava将 T类型 转换为 R类型
+	 */
+	public abstract class HttpResultConversionFunc<T, R> implements Func1<T, R> {
+
+	    @Override
+	    public R call(T t) {
+	        R r = conversion(t);
+	        if (r == null) {
+	            throw new ApiException(ApiException.CONVERSION_RESULT_NULL);
+	        }
+	        return r;
+	    }
+	    // 将T类型转换为R类型的抽象方法,子类必须实现
+	    public abstract R conversion(T t);
+
+	}
 	
+
+	/**
+	 * Created by Thisdk on 2016/4/11.
+	 * 全部请求的错误从这里开始产生
+	 */
+	public class HttpResultErrorFunc<T> implements Func1<Response<ResultModle<T>>, ResultModle<T>> {
+
+	    @Override
+	    public ResultModle<T> call(Response<ResultModle<T>> response) {
+	        //正常返回的处理方式
+	        if (response.isSuccessful()) {
+	            return response.body();
+	        }
+	        //其他错误码的处理方式
+	        int code = response.code();
+	        String errorJson = "";
+	        ResultModle<T> errorBody = null;
+	        try {
+	            errorJson = response.errorBody().string();
+	        } catch (IOException e) {
+	            //抛出状态码 , 告知I/O错误
+	            throw new ApiException("HTTP " + code + " I/O steam error");
+	        }
+	        try {
+	            errorBody = new Gson().fromJson(errorJson, new TypeToken<ResultModle<T>>() {
+	            }.getType());
+	        } catch (JsonSyntaxException | JsonIOException e) {
+	            //抛出状态码 , 和无法序列化的内容
+	            throw new ApiException("HTTP " + code + " " + errorJson);
+	        }
+	        if (errorBody == null) {
+	            //抛出状态码 , 告知没有内容
+	            throw new ApiException("HTTP " + code + " error body is null");
+	        }
+	        //存在返回内容对象,按统一方式处理
+	        return errorBody;
+	    }
+
+	}
+
+	/**
+	 * 状态码
+	 */
+	public class HttpResultStatusCodeFunc<T> implements Func1<ResultModle<T>, T> {
+
+	    @Override
+	    public T call(ResultModle<T> resultModle) {
+	        if (resultModle.getCode() != 0) {
+	            throw new ApiException(resultModle.getCode(), resultModle.getMsg());
+	        } else {
+	            if (resultModle.getRows() != null) {
+	                return resultModle.getRows();
+	            } else return resultModle.getData();
+	        }
+	    }
+
+	}
 
