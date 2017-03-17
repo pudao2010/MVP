@@ -3,7 +3,7 @@ package com.pudao.android.network;
 import android.text.TextUtils;
 
 /**
- * Created by liukun on 16/3/10.
+ * Created by pucheng on 2017年3月16日21:56:45.
  * 对网络请求错误作统一处理
  */
 public class ApiException extends RuntimeException {

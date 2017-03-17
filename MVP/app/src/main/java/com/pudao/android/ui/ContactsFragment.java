@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.pudao.android.R;
 import com.pudao.android.base.BaseFragment;
 import com.pudao.android.bean.ContactsBean;
+import com.pudao.android.utils.PinyinUtil;
 import com.pudao.android.widget.SlideBar;
 
 import java.util.ArrayList;
@@ -74,6 +75,10 @@ public class ContactsFragment extends BaseFragment {
     protected void initview() {
         super.initview();
         mSlidebar.setOnSlidingBarChangeListener(mOnSlideBarChangeListener);
+        String alpha = PinyinUtil.getAlpha("张三");
+        String alpha2 = PinyinUtil.getAlpha("huang");
+        System.out.print(alpha);
+        System.out.print(alpha2);
     }
 
     @Override
