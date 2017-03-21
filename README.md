@@ -1,6 +1,6 @@
 # MVP
 项目中的MVP架子
-	网络请求结合Rxjava + Retrofit + Ohhttp
+	网络请求结合Rxjava + Retrofit + OKHttp
 	整体思路：
 	一、抽取顶层的接口Presenter接口,使用泛型进行简化，包含两个主要的方法与生命周期进行绑定
 
