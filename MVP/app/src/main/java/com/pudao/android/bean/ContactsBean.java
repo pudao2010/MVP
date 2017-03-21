@@ -1,5 +1,7 @@
 package com.pudao.android.bean;
 
+import com.pudao.android.utils.PinyinUtil;
+
 /**
  * Created by pucheng on 2017/2/27.
  */
@@ -28,11 +30,12 @@ public class ContactsBean {
         this.userName = userName;
     }
 
-    private char getFirstLetter() {
-        return userName.charAt(0);
+    private String getFirstLetter() {
+        return PinyinUtil.getAlpha(userName).substring(0,1);
     }
 
     public String getFirstLetterString() {
         return String.valueOf(getFirstLetter()).toUpperCase();
     }
+
 }

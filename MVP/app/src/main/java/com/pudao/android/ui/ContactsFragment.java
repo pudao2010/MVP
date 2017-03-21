@@ -3,6 +3,7 @@ package com.pudao.android.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ public class ContactsFragment extends BaseFragment {
     SlideBar mSlidebar;
     @BindView(R.id.section)
     TextView mSection;
+
+
 
     private BaseQuickAdapter<ContactsBean, BaseViewHolder> mAdapter;
     private List<ContactsBean> mList = new ArrayList<>();
@@ -77,8 +80,8 @@ public class ContactsFragment extends BaseFragment {
         mSlidebar.setOnSlidingBarChangeListener(mOnSlideBarChangeListener);
         String alpha = PinyinUtil.getAlpha("张三");
         String alpha2 = PinyinUtil.getAlpha("huang");
-        System.out.print(alpha);
-        System.out.print(alpha2);
+        Log.d("tag", alpha);
+        Log.d("tag", alpha2);
     }
 
     @Override
@@ -105,7 +108,9 @@ public class ContactsFragment extends BaseFragment {
         Collections.sort(mList, new Comparator<ContactsBean>() {
             @Override
             public int compare(ContactsBean o1, ContactsBean o2) {
-                return o1.getUserName().charAt(0) - o2.getUserName().charAt(0);
+                return PinyinUtil.getAlpha(o1.getUserName()).substring(0,1)
+                        .compareTo
+                                (PinyinUtil.getAlpha(o2.getUserName()).substring(0,1));
             }
         });
 
